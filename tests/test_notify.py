@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-#from privaan import notify
 import privaan.notify
 import privaan.config
 from mock import patch
