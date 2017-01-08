@@ -1,6 +1,6 @@
 #!/bin/sh -e
  
-DAEMON="/usr/sbin/privaan" 
+DAEMON="/usr/local/bin/privaan" 
 daemon_OPT="/var/log/apache2/access.log"  
 DAEMONUSER="root" 
 daemon_NAME="privaan"
@@ -13,7 +13,7 @@ test -x $DAEMON || exit 0
  
 d_start () {
         log_daemon_msg "Starting system $daemon_NAME Daemon"
-	start-stop-daemon --background --name $daemon_NAME --start --quiet --chuid $DAEMONUSER --exec $DAEMON -- $daemon_OPT
+	start-stop-daemon --background --name $daemon_NAME --start --quiet --chuid $DAEMONUSER --exec $DAEMON $daemon_OPT
         log_end_msg $?
 }
  
