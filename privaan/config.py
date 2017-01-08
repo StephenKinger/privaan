@@ -1,4 +1,4 @@
-username = 'username'
-password = 'password'
-fromaddr = 'username@provider.com'
-toaddrs  = 'dest@provider.com'
+username = 'fdsjhfdsk'
+password = 'fhdsjlfhdskl'
+fromaddr = 'fhdslfhdk'
+toaddrs = 'hfdsklfhdkjs'
