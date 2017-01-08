@@ -2,6 +2,7 @@ from pygtail import Pygtail
 from datetime import datetime
 from datetime import timedelta
 import time
+from geoip import GeoIPInformation
 
 __all__ = ['ApacheLogListener']
 
@@ -36,17 +37,27 @@ class ApacheLogListener():
         self.logfile=logfile
         
     def Watch(self, callback):
+        self.first_run = 1
         while 1:
             self.Check(callback)
             time.sleep(15)
+            print "relances"
         
     def Check(self, callback):
-        self.startdate = datetime.now()
-        msg = ''
+        if self.first_run:
+            self.startdate = datetime.now()
+            self.first_run = 0
+        msg = """\
+        <html>
+          <head></head>
+          <body>
+        """
+        is_something_to_send = 0
         for line in Pygtail(self.logfile):
             access_entry = AccessEntry(line.split(' '))
             #check if its an old entry
             if self.startdate < access_entry.getDate():
+                is_something_to_send = 1
                 access_type = 'UNKNOWN'
                 if access_entry.isGranted():
                     access_type = 'GRANTED'
@@ -54,5 +65,15 @@ class ApacheLogListener():
                     access_type = 'BAD_REQUEST'
                 if access_entry.isUnauthorized():
                     access_type = 'UNAUTHORIZED'
-                msg += access_type + ' access occured from IP ' + access_entry.getIp() + '\n'
-        callback(msg)
+                msg += '<p>'+access_type + ' access occured from IP ' + access_entry.getIp() + '</p>\n'
+                geo = GeoIPInformation()
+                msg += geo.GetIPInfo(access_entry.getIp())
+            else:
+                print "old enty"
+                print access_entry
+        msg += """\
+          </body>
+        </html>
+        """
+        if is_something_to_send:    
+            callback(msg)

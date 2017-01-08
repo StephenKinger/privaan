@@ -26,6 +26,7 @@ class PostInstallCommand(install):
         password = raw_input("Enter the password for sender: ")
         sender_email = raw_input("Enter the email for the sender: ")
         sender_receivers = raw_input("Enter the emails for receivers (coma separated): ")
+        user_max_box_api_key = raw_input("Enter the map box api key (https://www.mapbox.com): ")
         os.system("rm privaan/config.py && touch privaan/config.py")
         f = open('privaan/config.py', 'w')
         
@@ -33,9 +34,13 @@ class PostInstallCommand(install):
         f.write('password = \''+password+'\'\n')
         f.write('fromaddr = \''+sender_email+'\'\n')
         f.write('toaddrs = \''+sender_receivers+'\'\n')
+        f.write('map_box_api_key = \''+user_max_box_api_key+'\'\n')
         f.close()
         install.run(self)
         os.system("chmod +x /etc/init.d/privaanservice")
+        os.system("update-rc.d privaanservice defaults")
+        os.system("/etc/init.d/privaanservice start")
+
 
 # Ceci n'est qu'un appel de fonction. Mais il est trèèèèèèèèèèès long
 # et il comporte beaucoup de paramètres
