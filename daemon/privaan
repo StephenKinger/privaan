@@ -1,0 +1,2 @@
+#!/bin/bash
+python /home/steph/projects/privaan/__init__.py /var/log/apache2/access.log

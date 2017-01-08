@@ -1,6 +1,10 @@
 from pygtail import Pygtail
 from datetime import datetime
 from datetime import timedelta
+import time
+
+__all__ = ['ApacheLogListener']
+
 
 class AccessEntry():
     def __init__(self, record):
@@ -32,7 +36,13 @@ class ApacheLogListener():
         self.logfile=logfile
         
     def Watch(self, callback):
+        while 1:
+            self.Check(callback)
+            time.sleep(15)
+        
+    def Check(self, callback):
         self.startdate = datetime.now()
+        msg = ''
         for line in Pygtail(self.logfile):
             access_entry = AccessEntry(line.split(' '))
             #check if its an old entry
@@ -44,5 +54,5 @@ class ApacheLogListener():
                     access_type = 'BAD_REQUEST'
                 if access_entry.isUnauthorized():
                     access_type = 'UNAUTHORIZED'
-                msg = access_type + ' access occured from IP ' + access_entry.getIp()
-                callback(msg)
+                msg += access_type + ' access occured from IP ' + access_entry.getIp() + '\n'
+        callback(msg)
