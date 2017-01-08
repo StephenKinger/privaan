@@ -2,6 +2,7 @@ from pygtail import Pygtail
 from datetime import datetime
 from datetime import timedelta
 import time
+from geoip import GeoIPInformation
 
 __all__ = ['ApacheLogListener']
 
@@ -55,4 +56,6 @@ class ApacheLogListener():
                 if access_entry.isUnauthorized():
                     access_type = 'UNAUTHORIZED'
                 msg += access_type + ' access occured from IP ' + access_entry.getIp() + '\n'
-        callback(msg)
+                geo = GeoIPInformation()
+                geo.GetIPInfo(access_entry.getIp())
+        #callback(msg)
