@@ -1,5 +1,6 @@
 #!/bin/bash
 export PYTHONPATH=`pwd`/..:$PYTHONPATH
-rm *.offset
+if [ -f access.txt.offset ]
+  then rm *.offset
+fi
 python -m unittest discover
-rm *.offset

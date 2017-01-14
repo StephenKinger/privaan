@@ -9,6 +9,7 @@ __all__ = ['ApacheLogListener']
 
 class AccessEntry():
     def __init__(self, record):
+        print record
         self.ip = record[0]
         self.user = record[2]
         self.date = record[3]
@@ -37,6 +38,7 @@ class AccessEntry():
 class ApacheLogListener():
 
     def __init__(self, logfile):
+        self.first_run = 1
         self.logfile=logfile
 
     def Watch(self, callback):

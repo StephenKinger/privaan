@@ -9,15 +9,17 @@ import os
 class TestApacheLogListener(unittest.TestCase):
 
     def printer(self, msg):
-       self.assertEqual(msg, 'GRANTED access occured from IP 83.243.102.1\nUNAUTHORIZED access occured from IP 66.249.93.30\nBAD_REQUEST access occured from IP 185.83.161.4\n')
-    
+       self.assertEqual(msg.find('GRANTED access occured from IP 83.243.102.1') , 67)
+       self.assertEqual(msg.find('UNAUTHORIZED access occured from IP 66.249.93.30'), 1239)
+       self.assertEqual(msg.find('BAD_REQUEST access occured from IP 185.83.161.4'), 2440)
+
     def test_one_file(self):
         self.count = 0
         path = os.getcwd()
-        listener = privaan.apacheLogListener.ApacheLogListener('./access.log')
-        
+        listener = privaan.apacheLogListener.ApacheLogListener('./access.txt')
+
         listener.Check(self.printer)
-        
+
 
 
 
