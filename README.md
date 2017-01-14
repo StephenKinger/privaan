@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/StephenKinger/privaan.svg?branch=master)](https://travis-ci.org/StephenKinger/privaan)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 # privaan
 Private Access Area Notification (privaan) is a tool in charge of monitoring access logs and to notify you that an access occured.
 
