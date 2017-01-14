@@ -4,14 +4,14 @@ from config import *
 class GeoIPInformation():
     def __init__(self):
         self.uri = 'http://freegeoip.net/json/'
-        
+
     def GetIPInfo(self, ip):
         print 'request' + self.uri + ip
         r = requests.get(self.uri+ip)
         print r.json()
         self.info = r.json()
         return self.formatIPInfo()
-    
+
     def formatIPInfo(self):
         info = """\
         <table style="border:solid 1px black;">
