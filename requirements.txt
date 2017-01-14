@@ -1,3 +1,4 @@
 mock>=2.0.0,
 pygtail>=0.7.0,
-docopt>=0.6.2
+docopt>=0.6.2,
+requests>=2.12.4
