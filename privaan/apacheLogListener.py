@@ -59,25 +59,29 @@ class ApacheLogListener():
         """
         is_something_to_send = 0
         for line in Pygtail(self.logfile):
-            access_entry = AccessEntry(line.split(' '))
-            #check if its an old entry
-            if self.startdate < access_entry.getDate():
-                is_something_to_send = 1
-                access_type = 'UNKNOWN'
-                if access_entry.isGranted():
-                    access_type = 'GRANTED'
-                if access_entry.isBadRequest():
-                    access_type = 'BAD_REQUEST'
-                if access_entry.isUnauthorized():
-                    access_type = 'UNAUTHORIZED'
-                msg += '<p>'+access_type + ' access occured from IP ' + access_entry.getIp() + '</p>\n'
-                msg += '<p>Request '+access_entry.getRequest()+'</p>\n'
-                geo = GeoIPInformation()
-                msg += geo.GetIPInfo(access_entry.getIp())
-            else:
-                print "old enty"
-                print access_entry
-        msg += """\
+	    try:
+                access_entry = AccessEntry(line.split(' '))
+                #check if its an old entry
+                if self.startdate < access_entry.getDate():
+                    is_something_to_send = 1
+                    access_type = 'UNKNOWN'
+                    if access_entry.isGranted():
+                         access_type = 'GRANTED'
+                    if access_entry.isBadRequest():
+                        access_type = 'BAD_REQUEST'
+                    if access_entry.isUnauthorized():
+                        access_type = 'UNAUTHORIZED'
+                    msg += '<p>'+access_type + ' access occured from IP ' + access_entry.getIp() + '</p>\n'
+                    msg += '<p>Request '+access_entry.getRequest()+'</p>\n'
+                    geo = GeoIPInformation()
+                    msg += geo.GetIPInfo(access_entry.getIp())
+                else:
+                    print "old enty"
+                    print access_entry
+            except:
+	        print "error split"
+		print line
+	msg += """\
           </body>
         </html>
         """
