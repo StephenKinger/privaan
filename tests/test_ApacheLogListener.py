@@ -9,9 +9,9 @@ import os
 class TestApacheLogListener(unittest.TestCase):
 
     def printer(self, msg):
-       self.assertEqual(msg.find('GRANTED access occured from IP 83.243.102.1') , 67)
-       self.assertEqual(msg.find('UNAUTHORIZED access occured from IP 66.249.93.30'), 1239)
-       self.assertEqual(msg.find('BAD_REQUEST access occured from IP 185.83.161.4'), 2440)
+       self.assertNotEqual(msg.find('GRANTED access occured from IP 83.243.102.1') , -1)
+       self.assertNotEqual(msg.find('UNAUTHORIZED access occured from IP 66.249.93.30'), -1)
+       self.assertNotEqual(msg.find('BAD_REQUEST access occured from IP 185.83.161.4'), -1)
 
     def test_one_file(self):
         self.count = 0
