@@ -6,7 +6,10 @@ from config import *
 def notify(content) :
     # The actual mail send
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Log Report"
+    if content.find('GRANTED') != -1:
+        msg['Subject'] = "Granted Access Report"
+    else:
+        msg['Subject'] = "Log Report"
     part = MIMEText(content.encode('utf-8'), 'html')
     msg.attach(part)
     server = smtplib.SMTP('smtp.gmail.com:587')
